@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Visitor {
+  id         String   @id @default(cuid())
+  visitorId  String   @unique
+  ipAddress  String?
+  country    String?
+  device     String?
+  browser    String?
+  firstVisit DateTime @default(now())
+  lastVisit  DateTime @default(now())
+  visitCount Int      @default(1)
+}
+
+model Admin {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+}
+
+model SiteSettings {
+  id    String @id @default("global") // We will only have one row
+  telegramUrl String @default("https://t.me/nexabot_support")
+}
